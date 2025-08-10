@@ -1,11 +1,16 @@
+// server.js
 const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
+const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
+
+// WebSocket server (wss works automatically if served over HTTPS)
 const wss = new WebSocket.Server({ server });
 
+// In-memory clients = demo only (use DB for prod)
 let clients = {};
 
 wss.on('connection', (ws) => {
@@ -14,8 +19,8 @@ wss.on('connection', (ws) => {
       const data = JSON.parse(message);
       if (data.type === 'join') {
         ws.id = Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-        ws.nickname = data.nickname;
-        ws.tags = data.tags;
+        ws.nickname = data.nickname || 'Anon';
+        ws.tags = data.tags || '';
         clients[ws.id] = ws;
         broadcastUsers();
       } else if (data.type === 'introduce') {
@@ -32,7 +37,7 @@ wss.on('connection', (ws) => {
         }
       }
     } catch (e) {
-      console.error('Error parsing message', e);
+      console.error('Invalid message', e);
     }
   });
 
@@ -45,14 +50,18 @@ wss.on('connection', (ws) => {
 function broadcastUsers() {
   const userList = Object.keys(clients).map(id => ({
     id,
-    nickname: clients[id].nickname,
-    tags: clients[id].tags
+    nickname: clients[id]?.nickname,
+    tags: clients[id]?.tags
   }));
   const data = JSON.stringify({ type: 'user_list', users: userList });
-  for (let id in clients) {
-    clients[id].send(data);
+  for (const id in clients) {
+    try { clients[id].send(data); } catch(e) {}
   }
 }
 
-app.use(express.static('.'));
-server.listen(3000, () => console.log('Server running on http://localhost:3000'));
+// Serve static files (index.html, etc.)
+app.use(express.static(path.join(__dirname)));
+
+// Use the PORT provided by the host (Render sets PORT)
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
