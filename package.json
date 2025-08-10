@@ -1,6 +1,4 @@
-{"scripts": {
-  "start": "node server.js"
-}
+{
   "name": "evai",
   "version": "1.0.0",
   "description": "EVAI - Emotionally Intelligent AI",
