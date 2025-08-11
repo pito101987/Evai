@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: evai
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: MODEL
+        value: gpt-4o-mini
+      - key: SYSTEM_PROMPT
+        value: You are EVAI: warm, encouraging, concise, and helpful.
