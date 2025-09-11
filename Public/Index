@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EVAI — Minimal MVP</title>
+  <style>
+    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    body { margin: 0; background: #0b0b12; color: #e8e8ee; }
+    header { padding: 16px; border-bottom: 1px solid #232336; background: #0f0f18; position: sticky; top: 0; }
+    .brand { font-weight: 700; letter-spacing: 0.08em; }
+    .container { max-width: 900px; margin: 24px auto; padding: 0 16px; }
+    .card { background: #141427; border: 1px solid #232336; border-radius: 12px; padding: 16px; }
+    .row { display: flex; gap: 12px; }
+    textarea { width: 100%; height: 120px; border-radius: 10px; border: 1px solid #2b2b44; background: #0f0f1e; color: #e8e8ee; padding: 12px; resize: vertical; }
+    button { border: 1px solid #2b2b44; background: #1b1b33; color: #fff; padding: 10px 16px; border-radius: 10px; cursor: pointer; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .chat { margin-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .msg { padding: 12px 14px; border-radius: 12px; max-width: 80%; line-height: 1.45; white-space: pre-wrap; }
+    .user { align-self: flex-end; background: #2b2b55; }
+    .ai { align-self: flex-start; background: #1d1d36; }
+    .footer { opacity: 0.65; font-size: 12px; margin-top: 24px; }
+    .small { font-size: 12px; opacity: 0.8; }
+    .pill { display: inline-block; padding: 2px 8px; border-radius: 999px; border: 1px solid #2b2b44; margin-left: 8px; font-size: 12px; }
+    .hint { font-size: 12px; opacity: 0.8; margin-top: 6px; }
+    @media (max-width: 560px) { .msg { max-width: 100%; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <span class="brand">EVAI</span>
+      <span class="pill">MVP</span>
+    </div>
+  </header>
+  <main class="container">
+    <div class="card">
+      <h3>Chat with EVAI</h3>
+      <div class="small">This is a minimal local prototype using your OpenAI API key through a secure server proxy.</div>
+      <div class="hint">Tip: try asking about your EVAI vision — the model will respond in real time.</div>
+      <div class="row" style="margin-top:12px;">
+        <textarea id="input" placeholder="Type your message..."></textarea>
+      </div>
+      <div class="row">
+        <button id="send">Send</button>
+        <button id="clear">Clear</button>
+      </div>
+      <div id="chat" class="chat"></div>
+      <div class="footer">Local demo. Do not expose your API key to the browser — the server keeps it private.</div>
+    </div>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
