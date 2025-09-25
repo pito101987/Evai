@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EVAI — Emotionally‑Intelligent AI</title>
+  <meta name="description" content="EVAI is a next‑generation, emotionally‑intelligent AI designed to amplify human intuition and unlock new forms of intelligence.">
+  <meta property="og:title" content="EVAI — Emotionally‑Intelligent AI">
+  <meta property="og:description" content="Amplify human intuition. Build the future with EVAI.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-nav">
+    <div class="container">
+      <div class="brand">
+        <img src="assets/evai-logo.svg" alt="EVAI logo" class="logo">
+        <span>EVAI</span>
+      </div>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#contact" class="btn small">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container grid">
+        <div class="hero-copy">
+          <h1>Emotionally‑Intelligent AI for Human Potential</h1>
+          <p class="lede">EVAI blends logic with intuition to help people think clearer, create faster, and make better decisions.</p>
+          <div class="cta-row">
+            <a class="btn primary" href="#waitlist">Join the waitlist</a>
+            <a class="btn ghost" href="#demo">See a quick demo</a>
+          </div>
+          <p class="tiny">By Emmanuel Vargas • Building in public</p>
+        </div>
+        <div class="hero-media card" role="img" aria-label="Futuristic UI mockup">
+          <img src="assets/hero-mock.png" alt="EVAI futuristic UI mockup">
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section">
+      <div class="container">
+        <h2>Why EVAI</h2>
+        <div class="features grid-3">
+          <article class="feature">
+            <h3>Emotion Engine</h3>
+            <p>Understands tone and intent to respond with clarity and care.</p>
+          </article>
+          <article class="feature">
+            <h3>Memory that Matters</h3>
+            <p>Remembers your goals and adapts to your evolving journey.</p>
+          </article>
+          <article class="feature">
+            <h3>Open & Human‑First</h3>
+            <p>Transparent, safe, and designed to put people before machines.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="section alt">
+      <div class="container grid">
+        <div>
+          <h2>How it works</h2>
+          <ol class="steps">
+            <li>Set your purpose and priorities.</li>
+            <li>Chat with EVAI across devices.</li>
+            <li>Collect insights, actions, and progress automatically.</li>
+          </ol>
+          <a class="btn primary" href="#waitlist">Get early access</a>
+        </div>
+        <div class="card">
+          <h4>Built with a simple stack</h4>
+          <ul class="stack">
+            <li>Static site (this starter)</li>
+            <li>Optional: Netlify/Vercel for hosting</li>
+            <li>Optional: Formspree/Netlify Forms for waitlist</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="waitlist" class="section">
+      <div class="container narrow">
+        <h2>Join the Waitlist</h2>
+        <p>Be the first to try EVAI. No spam, ever.</p>
+        <form class="card form" name="waitlist" method="post" data-netlify="true">
+          <input type="hidden" name="form-name" value="waitlist">
+          <label>
+            <span>Name</span>
+            <input name="name" type="text" required placeholder="Your name">
+          </label>
+          <label>
+            <span>Email</span>
+            <input name="email" type="email" required placeholder="you@example.com">
+          </label>
+          <button class="btn primary" type="submit">Notify me</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="demo" class="section alt">
+      <div class="container narrow center">
+        <h2>See a 30‑second vision</h2>
+        <p>Add a short teaser clip or product GIF here.</p>
+        <div class="card placeholder">Your demo video goes here</div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container narrow">
+        <h2>Contact</h2>
+        <p>Email: <a href="mailto:contact@evai.example">contact@evai.example</a></p>
+        <p>Social: <a href="#">X/Twitter</a> • <a href="#">YouTube</a> • <a href="#">LinkedIn</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Emmanuel Vargas — EVAI</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
