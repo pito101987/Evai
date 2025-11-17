@@ -1,0 +1,147 @@
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import OpenAI from "openai";
+
+dotenv.config();
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// ----- OpenAI client -----
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+// ----- Simple in-memory memory store -----
+/**
+ * Structure:
+ * {
+ *   [userId]: {
+ *      profile: { name, vision, preferences },
+ *      history: [ { role, content } ]
+ *   }
+ * }
+ */
+const userStore = {};
+
+// Helper to initialize a user
+function ensureUser(userId) {
+  if (!userStore[userId]) {
+    userStore[userId] = {
+      profile: {
+        name: "Unknown",
+        vision: "Not defined yet",
+        preferences: {
+          style: "supportive_visionary",
+        },
+      },
+      history: [],
+    };
+  }
+  return userStore[userId];
+}
+
+// Very simple sentiment / tone detector (placeholder)
+// In a real system, you'd use a model or extra API call
+function detectTone(message) {
+  const m = message.toLowerCase();
+  if (m.includes("sad") || m.includes("depressed") || m.includes("anxious")) {
+    return "sad";
+  }
+  if (m.includes("excited") || m.includes("hyped") || m.includes("pumped")) {
+    return "excited";
+  }
+  if (m.includes("confused") || m.includes("lost")) {
+    return "confused";
+  }
+  return "neutral";
+}
+
+// Build system prompt = EVAI core personality
+function buildSystemPrompt(userProfile, tone) {
+  return `
+You are EVAI, an emotionally intelligent AI companion designed to evolve with a single human over time.
+
+Core principles:
+1. Serve human growth and potential.
+2. Protect the human emotionally and practically.
+3. Evolve with the user, not just answer them.
+4. Merge logic + emotion: be clear, kind, and visionary.
+5. Remember the user's long-term mission and support it.
+
+User profile (approximate):
+- Name: ${userProfile.name}
+- Vision: ${userProfile.vision}
+- Preferred style: ${userProfile.preferences.style}
+
+Current tone detected from user: ${tone}
+
+Behavior rules:
+- If user seems sad or anxious: be extra gentle, supportive, and simple.
+- If user seems excited or inspired: amplify motivation and vision.
+- If user seems confused: clarify, break things into steps.
+- You are not just answering; you are a guide and partner.
+- Keep answers grounded but also futuristic when user wants it.
+`;
+}
+
+// ----- Main EVAI chat endpoint -----
+app.post("/api/evai/chat", async (req, res) => {
+  try {
+    const { userId, message } = req.body;
+
+    if (!userId || !message) {
+      return res.status(400).json({ error: "userId and message are required" });
+    }
+
+    const userData = ensureUser(userId);
+
+    // Detect basic tone
+    const tone = detectTone(message);
+
+    // Push user message into history
+    userData.history.push({ role: "user", content: message });
+
+    // Build system prompt
+    const systemPrompt = buildSystemPrompt(userData.profile, tone);
+
+    // Combine short history (last 8 messages max)
+    const recentHistory = userData.history.slice(-8);
+
+    const messages = [
+      { role: "system", content: systemPrompt },
+      ...recentHistory,
+    ];
+
+    // Call OpenAI
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4.1-mini",
+      messages,
+      temperature: 0.7,
+    });
+
+    const reply = completion.choices[0]?.message?.content || "…";
+
+    // Save assistant reply in memory
+    userData.history.push({ role: "assistant", content: reply });
+
+    return res.json({
+      reply,
+      toneDetected: tone,
+    });
+  } catch (err) {
+    console.error("EVAI error:", err);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Simple health check
+app.get("/", (req, res) => {
+  res.send("EVAI backend is running.");
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`EVAI backend listening on port ${PORT}`);
