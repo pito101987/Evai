@@ -1,0 +1,5 @@
+evai-backend/
+  ├─ package.json
+  ├─ index.js
+  ├─ .env
+  └─ README.md   (optional for now)
